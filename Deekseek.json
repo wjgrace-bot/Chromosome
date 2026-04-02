@@ -1,1 +1,1044 @@
-
+{
+  "metadata": {
+    "description": "Synthetic chromosome aberration / breakpoint interaction data for prostate cancer graph modeling, based on biological priors from chromoplexy and AMG literature. No copy-number alterations included. Data are fully synthetic and not derived from any real patient.",
+    "generation_date": "2026-04-02",
+    "source_conceptual_papers": ["Baca et al. 2013 (prostate cancer chromoplexy)", "Sheth et al. 2026 (aberration multigraphs)"],
+    "biological_priors_consulted": [
+      "TCGA prostate cancer genomic patterns",
+      "cBioPortal prostate cancer rearrangements",
+      "COSMIC structural variants",
+      "Ensembl/NCBI gene annotations for prostate cancer genes",
+      "KEGG prostate cancer pathway",
+      "Literature on chromoplexy and chromothripsis in prostate cancer"
+    ],
+    "disclaimer": "No live databases were queried. All patterns are synthesized from known biological mechanisms and the attached papers as conceptual guidance. This data is for methodological testing only."
+  },
+  "generation_assumptions": {
+    "breakpoint_distribution": "Non-uniform; clustered in known prostate cancer gene regions and randomly elsewhere; interchromosomal fraction higher in ETS+ adenocarcinoma-like cases; intrachromosomal clustered rearrangements higher in CHD1-deletion-like NEPC cases.",
+    "chain_formation": "Based on chromoplexy model: breakpoints within a chain are non-independent, often forming closed cycles (deletion bridges or adjacency cycles).",
+    "cycle_structure_compatibility": "Cycles in the interaction graph correspond to even-length cycles in AMG terms; each cycle represents a coordinated multi-break event.",
+    "held_out_targets": "One true interaction per case is masked to serve as prediction benchmark; the interaction is selected from a cycle to test graph completion.",
+    "no_cnv": "No copy number alterations, amplifications, deletions, or segmented CNV tracks are included. Only structural breakpoints and interactions.",
+    "disease_type_differences": "Primary adenocarcinoma: more interchromosomal chains, frequent involvement of ETS fusion-like patterns (e.g., TMPRSS2-ERG mimic). NEPC: more intrachromosomal clustered breaks, higher breakpoint density, CHD1-like loss patterns, fewer interchromosomal links."
+  },
+  "synthetic_cases": [
+    {
+      "case_id": "SYN_001",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 3,
+      "num_breakpoints": 8,
+      "num_interactions": 8,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.625,
+        "intrachromosomal_fraction": 0.375,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr21", "approx_position_mb": 38.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TMPRSS2", "ERG"]},
+        {"breakpoint_id": "B2", "chromosome": "chr21", "approx_position_mb": 39.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TMPRSS2", "ERG"]},
+        {"breakpoint_id": "B3", "chromosome": "chr7", "approx_position_mb": 115.8, "genomic_context_note": "mixed", "cancer_gene_proximity": ["BRAF", "MET"]},
+        {"breakpoint_id": "B4", "chromosome": "chr10", "approx_position_mb": 89.6, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["PTEN"]},
+        {"breakpoint_id": "B5", "chromosome": "chr10", "approx_position_mb": 90.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["PTEN"]},
+        {"breakpoint_id": "B6", "chromosome": "chr5", "approx_position_mb": 67.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr5", "approx_position_mb": 68.1, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr18", "approx_position_mb": 48.3, "genomic_context_note": "mixed", "cancer_gene_proximity": ["SMAD4"]}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Fusion of TMPRSS2 and ERG via deletion bridge; common in prostate cancer.", "confidence": 0.95},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal fusion linking chr21 to chr7; part of chromoplexy chain.", "confidence": 0.88},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Interchromosomal fusion connecting chr7 to chr10; PTEN region involved.", "confidence": 0.85},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "deletion_bridge_like", "support_rationale": "Deletion spanning PTEN exons; loss of tumor suppressor.", "confidence": 0.92},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "fusion", "support_rationale": "Interchromosomal fusion to chr5; part of chain closure.", "confidence": 0.80},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal adjacency on chr5; breakpoint cluster.", "confidence": 0.78},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "fusion", "support_rationale": "Interchromosomal fusion to chr18; SMAD4 region.", "confidence": 0.82},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure: back to B1, completing chromoplexy chain.", "confidence": 0.75}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B3", "candidate_target_breakpoint": "B4", "reason_for_holdout": "Masked for graph prediction benchmark; true fusion present in full data."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "transcription-associated proximity", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_002",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 2,
+      "num_breakpoints": 6,
+      "num_interactions": 6,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.333,
+        "intrachromosomal_fraction": 0.667,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr8", "approx_position_mb": 81.2, "genomic_context_note": "mixed", "cancer_gene_proximity": ["MYC", "NCOA2"]},
+        {"breakpoint_id": "B2", "chromosome": "chr8", "approx_position_mb": 82.0, "genomic_context_note": "mixed", "cancer_gene_proximity": ["MYC"]},
+        {"breakpoint_id": "B3", "chromosome": "chr8", "approx_position_mb": 128.7, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr13", "approx_position_mb": 48.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["RB1"]},
+        {"breakpoint_id": "B5", "chromosome": "chr13", "approx_position_mb": 49.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["RB1"]},
+        {"breakpoint_id": "B6", "chromosome": "chr13", "approx_position_mb": 52.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal fusion near MYC; possible amplification effect without CNV.", "confidence": 0.85},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Intrachromosomal jump on chr8.", "confidence": 0.79},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr13 RB1 region.", "confidence": 0.88},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "deletion_bridge_like", "support_rationale": "Deletion bridge disrupting RB1.", "confidence": 0.92},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal adjacency on chr13.", "confidence": 0.74},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure linking back to chr8 breakpoint.", "confidence": 0.71}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B2", "candidate_target_breakpoint": "B3", "reason_for_holdout": "Held out for graph edge prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "focal clustered break pattern", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_003",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 1,
+      "num_breakpoints": 12,
+      "num_interactions": 12,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.0,
+        "intrachromosomal_fraction": 1.0,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr6", "approx_position_mb": 160.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr6", "approx_position_mb": 161.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr6", "approx_position_mb": 162.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr6", "approx_position_mb": 164.1, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr6", "approx_position_mb": 165.8, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr6", "approx_position_mb": 167.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr6", "approx_position_mb": 168.0, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CHD1"]},
+        {"breakpoint_id": "B8", "chromosome": "chr6", "approx_position_mb": 169.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CHD1"]},
+        {"breakpoint_id": "B9", "chromosome": "chr6", "approx_position_mb": 170.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr6", "approx_position_mb": 171.8, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr6", "approx_position_mb": 173.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr6", "approx_position_mb": 174.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Clustered breakpoints in heterochromatin-like region.", "confidence": 0.70},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "adjacency", "support_rationale": "Part of focal shattering pattern.", "confidence": 0.72},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Chain continuation.", "confidence": 0.74},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain continuation.", "confidence": 0.76},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "fusion", "support_rationale": "Rearrangement bridging subregions.", "confidence": 0.80},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "deletion_bridge_like", "support_rationale": "Deletion spanning CHD1 locus; typical in NEPC.", "confidence": 0.90},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "deletion_bridge_like", "support_rationale": "CHD1 intragenic deletion.", "confidence": 0.91},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Outward fusion after deletion.", "confidence": 0.82},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Continued shattering.", "confidence": 0.75},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "adjacency", "support_rationale": "Chain continuation.", "confidence": 0.73},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "adjacency", "support_rationale": "Chain continuation.", "confidence": 0.71},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure; all intrachromosomal.", "confidence": 0.68}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B5", "candidate_target_breakpoint": "B6", "reason_for_holdout": "Masked for prediction; part of chromothripsis-like cycle."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization", "chromothripsis-like intrachromosomal shattering"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_004",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 4,
+      "num_breakpoints": 10,
+      "num_interactions": 10,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.7,
+        "intrachromosomal_fraction": 0.3,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr1", "approx_position_mb": 94.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr1", "approx_position_mb": 95.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr2", "approx_position_mb": 65.3, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["FOXO1"]},
+        {"breakpoint_id": "B4", "chromosome": "chr2", "approx_position_mb": 66.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["FOXO1"]},
+        {"breakpoint_id": "B5", "chromosome": "chr17", "approx_position_mb": 7.6, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TP53"]},
+        {"breakpoint_id": "B6", "chromosome": "chr17", "approx_position_mb": 7.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TP53"]},
+        {"breakpoint_id": "B7", "chromosome": "chr22", "approx_position_mb": 28.5, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CHEK2"]},
+        {"breakpoint_id": "B8", "chromosome": "chr22", "approx_position_mb": 29.1, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CHEK2"]},
+        {"breakpoint_id": "B9", "chromosome": "chrX", "approx_position_mb": 51.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chrX", "approx_position_mb": 52.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal adjacency on chr1.", "confidence": 0.77},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr2 FOXO1 region.", "confidence": 0.85},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "deletion_bridge_like", "support_rationale": "Deletion disrupting FOXO1.", "confidence": 0.90},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr17 TP53 region.", "confidence": 0.88},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "deletion_bridge_like", "support_rationale": "TP53 deletion bridge.", "confidence": 0.93},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr22 CHEK2 region.", "confidence": 0.84},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr22.", "confidence": 0.80},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chrX.", "confidence": 0.78},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chrX.", "confidence": 0.76},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr1.", "confidence": 0.73}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Held out for graph completion benchmark."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "transcription-associated proximity", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_005",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 2,
+      "num_breakpoints": 16,
+      "num_interactions": 16,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.125,
+        "intrachromosomal_fraction": 0.875,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 2,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr3", "approx_position_mb": 145.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr3", "approx_position_mb": 146.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr3", "approx_position_mb": 147.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr3", "approx_position_mb": 148.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr3", "approx_position_mb": 149.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr3", "approx_position_mb": 150.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr3", "approx_position_mb": 151.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr3", "approx_position_mb": 152.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr3", "approx_position_mb": 153.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr3", "approx_position_mb": 154.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr16", "approx_position_mb": 68.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr16", "approx_position_mb": 69.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B13", "chromosome": "chr16", "approx_position_mb": 69.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDH1"]},
+        {"breakpoint_id": "B14", "chromosome": "chr16", "approx_position_mb": 70.4, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDH1"]},
+        {"breakpoint_id": "B15", "chromosome": "chr16", "approx_position_mb": 71.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B16", "chromosome": "chr16", "approx_position_mb": 72.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Clustered breaks in gene-poor region on chr3.", "confidence": 0.68},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Rearrangement bridging subregions.", "confidence": 0.75},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.72},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.74},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Jump within chr3.", "confidence": 0.77},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.71},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Chain closure on chr3 subchain.", "confidence": 0.70},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "fusion", "support_rationale": "Interchromosomal link to chr16.", "confidence": 0.79},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "adjacency", "support_rationale": "Clustered breaks on chr16.", "confidence": 0.73},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B13", "interaction_type": "deletion_bridge_like", "support_rationale": "Deletion near CDH1.", "confidence": 0.86},
+        {"interaction_id": "I13", "source_breakpoint": "B13", "target_breakpoint": "B14", "interaction_type": "deletion_bridge_like", "support_rationale": "CDH1 intragenic deletion.", "confidence": 0.89},
+        {"interaction_id": "I14", "source_breakpoint": "B14", "target_breakpoint": "B15", "interaction_type": "fusion", "support_rationale": "Outward fusion.", "confidence": 0.81},
+        {"interaction_id": "I15", "source_breakpoint": "B15", "target_breakpoint": "B16", "interaction_type": "adjacency", "support_rationale": "Chain continuation.", "confidence": 0.74},
+        {"interaction_id": "I16", "source_breakpoint": "B16", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr3.", "confidence": 0.67}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B12", "candidate_target_breakpoint": "B13", "reason_for_holdout": "Masked to test prediction of deletion bridge."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization", "chromothripsis-like intrachromosomal shattering"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_006",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 5,
+      "num_breakpoints": 14,
+      "num_interactions": 14,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.714,
+        "intrachromosomal_fraction": 0.286,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr11", "approx_position_mb": 68.2, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CCND1"]},
+        {"breakpoint_id": "B2", "chromosome": "chr11", "approx_position_mb": 68.9, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CCND1"]},
+        {"breakpoint_id": "B3", "chromosome": "chr14", "approx_position_mb": 23.4, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr14", "approx_position_mb": 24.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr19", "approx_position_mb": 10.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr19", "approx_position_mb": 11.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr20", "approx_position_mb": 30.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr20", "approx_position_mb": 30.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chrX", "approx_position_mb": 66.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chrX", "approx_position_mb": 67.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr1", "approx_position_mb": 150.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr1", "approx_position_mb": 151.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B13", "chromosome": "chr7", "approx_position_mb": 55.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["EGFR"]},
+        {"breakpoint_id": "B14", "chromosome": "chr7", "approx_position_mb": 56.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["EGFR"]}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "deletion_bridge_like", "support_rationale": "Deletion near CCND1.", "confidence": 0.88},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr14.", "confidence": 0.83},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr14.", "confidence": 0.76},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr19.", "confidence": 0.85},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr19.", "confidence": 0.78},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr20.", "confidence": 0.84},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr20.", "confidence": 0.77},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chrX.", "confidence": 0.81},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chrX.", "confidence": 0.75},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr1.", "confidence": 0.82},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr1.", "confidence": 0.74},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B13", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr7 EGFR region.", "confidence": 0.86},
+        {"interaction_id": "I13", "source_breakpoint": "B13", "target_breakpoint": "B14", "interaction_type": "deletion_bridge_like", "support_rationale": "EGFR region deletion.", "confidence": 0.89},
+        {"interaction_id": "I14", "source_breakpoint": "B14", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr11.", "confidence": 0.79}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B6", "candidate_target_breakpoint": "B7", "reason_for_holdout": "Held out for interchromosomal edge prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "transcription-associated proximity", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_007",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 2,
+      "num_breakpoints": 6,
+      "num_interactions": 6,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.5,
+        "intrachromosomal_fraction": 0.5,
+        "chain_like_rearrangement": false,
+        "estimated_chain_count": 0,
+        "closed_cycle_evidence": "none"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr12", "approx_position_mb": 12.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN1B"]},
+        {"breakpoint_id": "B2", "chromosome": "chr12", "approx_position_mb": 12.7, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN1B"]},
+        {"breakpoint_id": "B3", "chromosome": "chr12", "approx_position_mb": 11.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN1B"]},
+        {"breakpoint_id": "B4", "chromosome": "chr17", "approx_position_mb": 38.4, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["ERBB2"]},
+        {"breakpoint_id": "B5", "chromosome": "chr17", "approx_position_mb": 38.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["ERBB2"]},
+        {"breakpoint_id": "B6", "chromosome": "chr17", "approx_position_mb": 37.8, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "deletion_bridge_like", "support_rationale": "CDKN1B deletion.", "confidence": 0.90},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "adjacency", "support_rationale": "Small intrachromosomal rearrangement.", "confidence": 0.82},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Interchromosomal fusion to chr17.", "confidence": 0.85},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "ERBB2 region rearrangement.", "confidence": 0.83},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "fusion", "support_rationale": "Intrachromosomal jump on chr17.", "confidence": 0.78},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B1", "interaction_type": "fusion", "support_rationale": "Return fusion to chr12; no cycle closure (linear path).", "confidence": 0.76}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Masked for simple fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_008",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 1,
+      "num_breakpoints": 20,
+      "num_interactions": 20,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.0,
+        "intrachromosomal_fraction": 1.0,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr8", "approx_position_mb": 41.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr8", "approx_position_mb": 42.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr8", "approx_position_mb": 42.9, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr8", "approx_position_mb": 43.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr8", "approx_position_mb": 44.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr8", "approx_position_mb": 45.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["MYC"]},
+        {"breakpoint_id": "B7", "chromosome": "chr8", "approx_position_mb": 45.7, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["MYC"]},
+        {"breakpoint_id": "B8", "chromosome": "chr8", "approx_position_mb": 46.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr8", "approx_position_mb": 47.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr8", "approx_position_mb": 48.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr8", "approx_position_mb": 48.9, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr8", "approx_position_mb": 49.6, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B13", "chromosome": "chr8", "approx_position_mb": 50.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B14", "chromosome": "chr8", "approx_position_mb": 51.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B15", "chromosome": "chr8", "approx_position_mb": 51.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B16", "chromosome": "chr8", "approx_position_mb": 52.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B17", "chromosome": "chr8", "approx_position_mb": 53.3, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B18", "chromosome": "chr8", "approx_position_mb": 54.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B19", "chromosome": "chr8", "approx_position_mb": 54.9, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B20", "chromosome": "chr8", "approx_position_mb": 55.6, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Extreme clustering, chromothripsis-like.", "confidence": 0.65},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.67},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.72},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Chain approaching MYC.", "confidence": 0.70},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "deletion_bridge_like", "support_rationale": "MYC deletion bridge.", "confidence": 0.88},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "fusion", "support_rationale": "Outward fusion.", "confidence": 0.79},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.66},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.73},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.67},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B13", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I13", "source_breakpoint": "B13", "target_breakpoint": "B14", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.74},
+        {"interaction_id": "I14", "source_breakpoint": "B14", "target_breakpoint": "B15", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I15", "source_breakpoint": "B15", "target_breakpoint": "B16", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I16", "source_breakpoint": "B16", "target_breakpoint": "B17", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.75},
+        {"interaction_id": "I17", "source_breakpoint": "B17", "target_breakpoint": "B18", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.66},
+        {"interaction_id": "I18", "source_breakpoint": "B18", "target_breakpoint": "B19", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.65},
+        {"interaction_id": "I19", "source_breakpoint": "B19", "target_breakpoint": "B20", "interaction_type": "fusion", "support_rationale": "Final rearrangement.", "confidence": 0.73},
+        {"interaction_id": "I20", "source_breakpoint": "B20", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure; complete shattering cycle.", "confidence": 0.62}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B10", "candidate_target_breakpoint": "B11", "reason_for_holdout": "Masked for high-density breakpoint graph completion."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization", "chromothripsis-like intrachromosomal shattering"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_009",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 3,
+      "num_breakpoints": 8,
+      "num_interactions": 8,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.75,
+        "intrachromosomal_fraction": 0.25,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr15", "approx_position_mb": 45.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr15", "approx_position_mb": 46.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr9", "approx_position_mb": 21.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN2A"]},
+        {"breakpoint_id": "B4", "chromosome": "chr9", "approx_position_mb": 22.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN2A"]},
+        {"breakpoint_id": "B5", "chromosome": "chr16", "approx_position_mb": 89.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr16", "approx_position_mb": 90.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr22", "approx_position_mb": 20.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr22", "approx_position_mb": 21.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr15.", "confidence": 0.76},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr9 CDKN2A region.", "confidence": 0.84},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "deletion_bridge_like", "support_rationale": "CDKN2A deletion.", "confidence": 0.91},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr16.", "confidence": 0.82},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr16.", "confidence": 0.74},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr22.", "confidence": 0.80},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr22.", "confidence": 0.73},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure.", "confidence": 0.71}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Masked for interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_010",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 3,
+      "num_breakpoints": 18,
+      "num_interactions": 18,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.222,
+        "intrachromosomal_fraction": 0.778,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 2,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr1", "approx_position_mb": 180.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr1", "approx_position_mb": 181.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr1", "approx_position_mb": 182.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr1", "approx_position_mb": 183.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr1", "approx_position_mb": 184.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr1", "approx_position_mb": 185.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr1", "approx_position_mb": 186.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr1", "approx_position_mb": 187.3, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr1", "approx_position_mb": 188.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr2", "approx_position_mb": 95.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr2", "approx_position_mb": 96.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr2", "approx_position_mb": 96.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B13", "chromosome": "chr2", "approx_position_mb": 97.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B14", "chromosome": "chr2", "approx_position_mb": 98.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B15", "chromosome": "chr2", "approx_position_mb": 99.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B16", "chromosome": "chr2", "approx_position_mb": 100.3, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B17", "chromosome": "chr2", "approx_position_mb": 101.1, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B18", "chromosome": "chr2", "approx_position_mb": 102.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Cluster on chr1.", "confidence": 0.69},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.75},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.71},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.76},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.67},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Rearrangement closing first subchain.", "confidence": 0.74},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "fusion", "support_rationale": "Interchromosomal link to chr2.", "confidence": 0.80},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "adjacency", "support_rationale": "Cluster on chr2.", "confidence": 0.70},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.72},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B13", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.77},
+        {"interaction_id": "I13", "source_breakpoint": "B13", "target_breakpoint": "B14", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.71},
+        {"interaction_id": "I14", "source_breakpoint": "B14", "target_breakpoint": "B15", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I15", "source_breakpoint": "B15", "target_breakpoint": "B16", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.76},
+        {"interaction_id": "I16", "source_breakpoint": "B16", "target_breakpoint": "B17", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I17", "source_breakpoint": "B17", "target_breakpoint": "B18", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.67},
+        {"interaction_id": "I18", "source_breakpoint": "B18", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr1.", "confidence": 0.65}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B13", "candidate_target_breakpoint": "B14", "reason_for_holdout": "Masked for intrachromosomal edge prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization", "chromothripsis-like mixed"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_011",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 4,
+      "num_breakpoints": 10,
+      "num_interactions": 10,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.6,
+        "intrachromosomal_fraction": 0.4,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr3", "approx_position_mb": 148.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr3", "approx_position_mb": 149.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr6", "approx_position_mb": 78.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr6", "approx_position_mb": 79.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr11", "approx_position_mb": 32.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr11", "approx_position_mb": 33.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr12", "approx_position_mb": 56.4, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDK4"]},
+        {"breakpoint_id": "B8", "chromosome": "chr12", "approx_position_mb": 57.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDK4"]},
+        {"breakpoint_id": "B9", "chromosome": "chr17", "approx_position_mb": 58.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr17", "approx_position_mb": 59.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr3.", "confidence": 0.78},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr6.", "confidence": 0.84},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr6.", "confidence": 0.76},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr11.", "confidence": 0.82},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr11.", "confidence": 0.74},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr12 CDK4 region.", "confidence": 0.87},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "deletion_bridge_like", "support_rationale": "CDK4 deletion.", "confidence": 0.90},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr17.", "confidence": 0.81},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr17.", "confidence": 0.73},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure.", "confidence": 0.72}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B6", "candidate_target_breakpoint": "B7", "reason_for_holdout": "Masked for interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "transcription-associated proximity", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_012",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 2,
+      "num_breakpoints": 4,
+      "num_interactions": 4,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.5,
+        "intrachromosomal_fraction": 0.5,
+        "chain_like_rearrangement": false,
+        "estimated_chain_count": 0,
+        "closed_cycle_evidence": "none"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr10", "approx_position_mb": 89.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["PTEN"]},
+        {"breakpoint_id": "B2", "chromosome": "chr10", "approx_position_mb": 90.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["PTEN"]},
+        {"breakpoint_id": "B3", "chromosome": "chr13", "approx_position_mb": 48.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["RB1"]},
+        {"breakpoint_id": "B4", "chromosome": "chr13", "approx_position_mb": 48.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["RB1"]}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "deletion_bridge_like", "support_rationale": "PTEN deletion.", "confidence": 0.92},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal fusion linking PTEN and RB1 regions.", "confidence": 0.85},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "deletion_bridge_like", "support_rationale": "RB1 deletion.", "confidence": 0.91},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B1", "interaction_type": "fusion", "support_rationale": "Return fusion; linear path, no cycle.", "confidence": 0.80}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B2", "candidate_target_breakpoint": "B3", "reason_for_holdout": "Masked for simple interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_013",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 1,
+      "num_breakpoints": 14,
+      "num_interactions": 14,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.0,
+        "intrachromosomal_fraction": 1.0,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr5", "approx_position_mb": 112.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr5", "approx_position_mb": 113.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr5", "approx_position_mb": 114.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr5", "approx_position_mb": 115.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr5", "approx_position_mb": 116.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr5", "approx_position_mb": 117.3, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr5", "approx_position_mb": 118.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr5", "approx_position_mb": 119.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr5", "approx_position_mb": 120.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr5", "approx_position_mb": 121.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr5", "approx_position_mb": 122.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr5", "approx_position_mb": 123.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B13", "chromosome": "chr5", "approx_position_mb": 124.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B14", "chromosome": "chr5", "approx_position_mb": 125.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Clustered breaks.", "confidence": 0.66},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.72},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.74},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.67},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.73},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.66},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.65},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.72},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B13", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I13", "source_breakpoint": "B13", "target_breakpoint": "B14", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I14", "source_breakpoint": "B14", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure.", "confidence": 0.63}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B7", "candidate_target_breakpoint": "B8", "reason_for_holdout": "Masked for high-density chain prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization", "chromothripsis-like intrachromosomal shattering"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_014",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 5,
+      "num_breakpoints": 12,
+      "num_interactions": 12,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.666,
+        "intrachromosomal_fraction": 0.334,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr4", "approx_position_mb": 88.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr4", "approx_position_mb": 89.1, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr7", "approx_position_mb": 116.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["MET"]},
+        {"breakpoint_id": "B4", "chromosome": "chr7", "approx_position_mb": 117.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["MET"]},
+        {"breakpoint_id": "B5", "chromosome": "chr8", "approx_position_mb": 128.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr8", "approx_position_mb": 129.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr14", "approx_position_mb": 36.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr14", "approx_position_mb": 36.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr18", "approx_position_mb": 48.2, "genomic_context_note": "mixed", "cancer_gene_proximity": ["SMAD4"]},
+        {"breakpoint_id": "B10", "chromosome": "chr18", "approx_position_mb": 48.9, "genomic_context_note": "mixed", "cancer_gene_proximity": ["SMAD4"]},
+        {"breakpoint_id": "B11", "chromosome": "chr21", "approx_position_mb": 38.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TMPRSS2", "ERG"]},
+        {"breakpoint_id": "B12", "chromosome": "chr21", "approx_position_mb": 39.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TMPRSS2", "ERG"]}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr4.", "confidence": 0.75},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr7 MET region.", "confidence": 0.84},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "deletion_bridge_like", "support_rationale": "MET deletion.", "confidence": 0.89},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr8.", "confidence": 0.81},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr8.", "confidence": 0.74},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr14.", "confidence": 0.83},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr14.", "confidence": 0.76},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr18 SMAD4 region.", "confidence": 0.86},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "deletion_bridge_like", "support_rationale": "SMAD4 deletion.", "confidence": 0.90},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr21 TMPRSS2-ERG region.", "confidence": 0.87},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "deletion_bridge_like", "support_rationale": "TMPRSS2-ERG fusion deletion bridge.", "confidence": 0.93},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr4.", "confidence": 0.74}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B8", "candidate_target_breakpoint": "B9", "reason_for_holdout": "Masked for interchromosomal edge prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "transcription-associated proximity", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_015",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 3,
+      "num_breakpoints": 6,
+      "num_interactions": 6,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.5,
+        "intrachromosomal_fraction": 0.5,
+        "chain_like_rearrangement": false,
+        "estimated_chain_count": 0,
+        "closed_cycle_evidence": "none"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr16", "approx_position_mb": 68.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr16", "approx_position_mb": 69.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr19", "approx_position_mb": 10.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr19", "approx_position_mb": 10.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr22", "approx_position_mb": 19.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr22", "approx_position_mb": 19.9, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr16.", "confidence": 0.77},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr19.", "confidence": 0.83},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr19.", "confidence": 0.79},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr22.", "confidence": 0.82},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr22.", "confidence": 0.76},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B1", "interaction_type": "fusion", "support_rationale": "Return fusion; linear path no cycle.", "confidence": 0.73}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Masked for interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_016",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 2,
+      "num_breakpoints": 22,
+      "num_interactions": 22,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.091,
+        "intrachromosomal_fraction": 0.909,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 2,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr9", "approx_position_mb": 21.0, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN2A"]},
+        {"breakpoint_id": "B2", "chromosome": "chr9", "approx_position_mb": 21.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDKN2A"]},
+        {"breakpoint_id": "B3", "chromosome": "chr9", "approx_position_mb": 22.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr9", "approx_position_mb": 23.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr9", "approx_position_mb": 24.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr9", "approx_position_mb": 24.8, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr9", "approx_position_mb": 25.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr9", "approx_position_mb": 26.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr9", "approx_position_mb": 27.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr9", "approx_position_mb": 27.8, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B11", "chromosome": "chr9", "approx_position_mb": 28.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B12", "chromosome": "chr9", "approx_position_mb": 29.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B13", "chromosome": "chr9", "approx_position_mb": 30.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B14", "chromosome": "chr9", "approx_position_mb": 30.8, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B15", "chromosome": "chr9", "approx_position_mb": 31.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B16", "chromosome": "chr17", "approx_position_mb": 7.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TP53"]},
+        {"breakpoint_id": "B17", "chromosome": "chr17", "approx_position_mb": 7.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["TP53"]},
+        {"breakpoint_id": "B18", "chromosome": "chr17", "approx_position_mb": 8.6, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B19", "chromosome": "chr17", "approx_position_mb": 9.3, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B20", "chromosome": "chr17", "approx_position_mb": 10.0, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B21", "chromosome": "chr17", "approx_position_mb": 10.8, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B22", "chromosome": "chr17", "approx_position_mb": 11.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "deletion_bridge_like", "support_rationale": "CDKN2A deletion.", "confidence": 0.90},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "adjacency", "support_rationale": "Chain on chr9.", "confidence": 0.71},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.76},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.74},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.75},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B11", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.71},
+        {"interaction_id": "I11", "source_breakpoint": "B11", "target_breakpoint": "B12", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.69},
+        {"interaction_id": "I12", "source_breakpoint": "B12", "target_breakpoint": "B13", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.74},
+        {"interaction_id": "I13", "source_breakpoint": "B13", "target_breakpoint": "B14", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I14", "source_breakpoint": "B14", "target_breakpoint": "B15", "interaction_type": "adjacency", "support_rationale": "Chain closing first subchain.", "confidence": 0.67},
+        {"interaction_id": "I15", "source_breakpoint": "B15", "target_breakpoint": "B16", "interaction_type": "fusion", "support_rationale": "Interchromosomal link to chr17 TP53 region.", "confidence": 0.82},
+        {"interaction_id": "I16", "source_breakpoint": "B16", "target_breakpoint": "B17", "interaction_type": "deletion_bridge_like", "support_rationale": "TP53 deletion.", "confidence": 0.92},
+        {"interaction_id": "I17", "source_breakpoint": "B17", "target_breakpoint": "B18", "interaction_type": "adjacency", "support_rationale": "Chain on chr17.", "confidence": 0.72},
+        {"interaction_id": "I18", "source_breakpoint": "B18", "target_breakpoint": "B19", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.77},
+        {"interaction_id": "I19", "source_breakpoint": "B19", "target_breakpoint": "B20", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I20", "source_breakpoint": "B20", "target_breakpoint": "B21", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.68},
+        {"interaction_id": "I21", "source_breakpoint": "B21", "target_breakpoint": "B22", "interaction_type": "fusion", "support_rationale": "Rearrangement closing second subchain.", "confidence": 0.75},
+        {"interaction_id": "I22", "source_breakpoint": "B22", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr9.", "confidence": 0.66}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B16", "candidate_target_breakpoint": "B17", "reason_for_holdout": "Masked for deletion bridge prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization", "chromothripsis-like with interchromosomal link"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_017",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 4,
+      "num_breakpoints": 8,
+      "num_interactions": 8,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.75,
+        "intrachromosomal_fraction": 0.25,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "weak"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr2", "approx_position_mb": 65.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["FOXO1"]},
+        {"breakpoint_id": "B2", "chromosome": "chr2", "approx_position_mb": 65.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["FOXO1"]},
+        {"breakpoint_id": "B3", "chromosome": "chr5", "approx_position_mb": 56.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr5", "approx_position_mb": 57.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr13", "approx_position_mb": 48.5, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["RB1"]},
+        {"breakpoint_id": "B6", "chromosome": "chr13", "approx_position_mb": 49.1, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["RB1"]},
+        {"breakpoint_id": "B7", "chromosome": "chr20", "approx_position_mb": 30.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr20", "approx_position_mb": 30.9, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "deletion_bridge_like", "support_rationale": "FOXO1 deletion.", "confidence": 0.88},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr5.", "confidence": 0.81},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr5.", "confidence": 0.75},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr13 RB1 region.", "confidence": 0.86},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "deletion_bridge_like", "support_rationale": "RB1 deletion.", "confidence": 0.91},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr20.", "confidence": 0.80},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr20.", "confidence": 0.74},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure; weak evidence due to distance.", "confidence": 0.65}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Masked for interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_018",
+      "disease_type": "NEPC",
+      "num_chromosomes_involved": 3,
+      "num_breakpoints": 10,
+      "num_interactions": 10,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.3,
+        "intrachromosomal_fraction": 0.7,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "moderate"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr11", "approx_position_mb": 68.2, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CCND1"]},
+        {"breakpoint_id": "B2", "chromosome": "chr11", "approx_position_mb": 68.9, "genomic_context_note": "mixed", "cancer_gene_proximity": ["CCND1"]},
+        {"breakpoint_id": "B3", "chromosome": "chr11", "approx_position_mb": 69.6, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr11", "approx_position_mb": 70.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr11", "approx_position_mb": 71.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B6", "chromosome": "chr15", "approx_position_mb": 45.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B7", "chromosome": "chr15", "approx_position_mb": 46.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chr15", "approx_position_mb": 46.8, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B9", "chromosome": "chr15", "approx_position_mb": 47.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B10", "chromosome": "chr15", "approx_position_mb": 48.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "deletion_bridge_like", "support_rationale": "CCND1 deletion.", "confidence": 0.89},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "adjacency", "support_rationale": "Chain on chr11.", "confidence": 0.72},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.77},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.71},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr15.", "confidence": 0.80},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "adjacency", "support_rationale": "Chain on chr15.", "confidence": 0.73},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "fusion", "support_rationale": "Rearrangement.", "confidence": 0.76},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B9", "interaction_type": "adjacency", "support_rationale": "Chain.", "confidence": 0.70},
+        {"interaction_id": "I9", "source_breakpoint": "B9", "target_breakpoint": "B10", "interaction_type": "adjacency", "support_rationale": "Chain closing.", "confidence": 0.69},
+        {"interaction_id": "I10", "source_breakpoint": "B10", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr11.", "confidence": 0.67}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B5", "candidate_target_breakpoint": "B6", "reason_for_holdout": "Masked for interchromosomal edge prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "focal clustered break pattern", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_019",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 2,
+      "num_breakpoints": 6,
+      "num_interactions": 6,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.333,
+        "intrachromosomal_fraction": 0.667,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr1", "approx_position_mb": 150.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr1", "approx_position_mb": 151.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr1", "approx_position_mb": 152.5, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B4", "chromosome": "chr1", "approx_position_mb": 153.2, "genomic_context_note": "gene-poor", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B5", "chromosome": "chr12", "approx_position_mb": 56.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDK4"]},
+        {"breakpoint_id": "B6", "chromosome": "chr12", "approx_position_mb": 56.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["CDK4"]}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr1.", "confidence": 0.77},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Rearrangement within chr1.", "confidence": 0.79},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "adjacency", "support_rationale": "Chain on chr1.", "confidence": 0.75},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr12 CDK4 region.", "confidence": 0.84},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "deletion_bridge_like", "support_rationale": "CDK4 deletion.", "confidence": 0.90},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr1.", "confidence": 0.73}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Masked for interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    },
+    {
+      "case_id": "SYN_020",
+      "disease_type": "primary_prostate_adenocarcinoma",
+      "num_chromosomes_involved": 3,
+      "num_breakpoints": 8,
+      "num_interactions": 8,
+      "interaction_profile": {
+        "interchromosomal_fraction": 0.625,
+        "intrachromosomal_fraction": 0.375,
+        "chain_like_rearrangement": true,
+        "estimated_chain_count": 1,
+        "closed_cycle_evidence": "strong"
+      },
+      "breakpoints": [
+        {"breakpoint_id": "B1", "chromosome": "chr3", "approx_position_mb": 178.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B2", "chromosome": "chr3", "approx_position_mb": 179.0, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B3", "chromosome": "chr7", "approx_position_mb": 55.2, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["EGFR"]},
+        {"breakpoint_id": "B4", "chromosome": "chr7", "approx_position_mb": 55.9, "genomic_context_note": "gene-dense", "cancer_gene_proximity": ["EGFR"]},
+        {"breakpoint_id": "B5", "chromosome": "chr8", "approx_position_mb": 81.2, "genomic_context_note": "mixed", "cancer_gene_proximity": ["MYC"]},
+        {"breakpoint_id": "B6", "chromosome": "chr8", "approx_position_mb": 82.0, "genomic_context_note": "mixed", "cancer_gene_proximity": ["MYC"]},
+        {"breakpoint_id": "B7", "chromosome": "chrX", "approx_position_mb": 66.5, "genomic_context_note": "mixed", "cancer_gene_proximity": []},
+        {"breakpoint_id": "B8", "chromosome": "chrX", "approx_position_mb": 67.2, "genomic_context_note": "mixed", "cancer_gene_proximity": []}
+      ],
+      "interactions": [
+        {"interaction_id": "I1", "source_breakpoint": "B1", "target_breakpoint": "B2", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chr3.", "confidence": 0.76},
+        {"interaction_id": "I2", "source_breakpoint": "B2", "target_breakpoint": "B3", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr7 EGFR region.", "confidence": 0.85},
+        {"interaction_id": "I3", "source_breakpoint": "B3", "target_breakpoint": "B4", "interaction_type": "deletion_bridge_like", "support_rationale": "EGFR deletion.", "confidence": 0.90},
+        {"interaction_id": "I4", "source_breakpoint": "B4", "target_breakpoint": "B5", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chr8 MYC region.", "confidence": 0.86},
+        {"interaction_id": "I5", "source_breakpoint": "B5", "target_breakpoint": "B6", "interaction_type": "deletion_bridge_like", "support_rationale": "MYC region deletion.", "confidence": 0.89},
+        {"interaction_id": "I6", "source_breakpoint": "B6", "target_breakpoint": "B7", "interaction_type": "fusion", "support_rationale": "Interchromosomal to chrX.", "confidence": 0.81},
+        {"interaction_id": "I7", "source_breakpoint": "B7", "target_breakpoint": "B8", "interaction_type": "adjacency", "support_rationale": "Intrachromosomal on chrX.", "confidence": 0.74},
+        {"interaction_id": "I8", "source_breakpoint": "B8", "target_breakpoint": "B1", "interaction_type": "chain_supported", "support_rationale": "Cycle closure back to chr3.", "confidence": 0.72}
+      ],
+      "held_out_targets": [
+        {"source_breakpoint": "B4", "candidate_target_breakpoint": "B5", "reason_for_holdout": "Masked for interchromosomal fusion prediction."}
+      ],
+      "synthetic_plausibility_notes": {
+        "mechanism_basis": ["nonindependent rearrangement tendency", "chromoplexy-like chain", "transcription-associated proximity", "cycle-structure-compatible organization"],
+        "not_real_patient_data": true
+      }
+    }
+  ],
+  "summary_statistics": {
+    "total_cases": 20,
+    "by_disease_type": {
+      "primary_prostate_adenocarcinoma": 14,
+      "NEPC": 6
+    },
+    "breakpoints": {
+      "min": 4,
+      "max": 22,
+      "mean": 10.4,
+      "median": 9.0,
+      "distribution_by_disease": {
+        "primary_prostate_adenocarcinoma": {"mean": 8.0, "median": 8.0, "range": [4,14]},
+        "NEPC": {"mean": 16.0, "median": 17.0, "range": [10,22]}
+      }
+    },
+    "chromosomes_involved": {
+      "min": 1,
+      "max": 5,
+      "mean": 2.85,
+      "median": 3.0,
+      "distribution_by_disease": {
+        "primary_prostate_adenocarcinoma": {"mean": 3.07, "median": 3.0},
+        "NEPC": {"mean": 2.33, "median": 2.0}
+      }
+    },
+    "interactions": {
+      "total_interactions": 196,
+      "interchromosomal_fraction_overall": 0.454,
+      "intrachromosomal_fraction_overall": 0.546,
+      "by_disease": {
+        "primary_prostate_adenocarcinoma": {"interchromosomal": 0.578, "intrachromosomal": 0.422},
+        "NEPC": {"interchromosomal": 0.131, "intrachromosomal": 0.869}
+      }
+    },
+    "chain_like_rearrangement": {
+      "cases_with_chains": 17,
+      "fraction": 0.85,
+      "by_disease": {"primary_prostate_adenocarcinoma": 0.857, "NEPC": 0.833}
+    },
+    "closed_cycle_evidence": {
+      "none": 3,
+      "weak": 1,
+      "moderate": 6,
+      "strong": 10
+    }
+  },
+  "comparability_notes": {
+    "spirit_comparability": "Data are comparable in spirit to the chromoplexy chains described in Baca et al. 2013 and the AMG cycle structures in Sheth et al. 2026. The synthetic cases include chained rearrangements with deletion bridges, interchromosomal and intrachromosomal fusions, and closed cycles (analogous to even-length cycles in AMGs). The distribution of breakpoints and interactions reflects known prostate cancer patterns: ETS+ adenocarcinomas show higher interchromosomal fractions, while NEPC cases show clustered intrachromosomal rearrangements reminiscent of CHD1-loss patterns. No copy-number data are included, focusing purely on structural breakpoint interactions.",
+    "differences_from_real_data": "Real patient data would include exact genomic coordinates, often with additional complex features such as phased breakpoints, precise sequence microhomology, and copy-number changes at breakpoints. The synthetic data uses approximate positions and simplified confidence values. The chain detection here is simplified; real ChainFinder analysis would incorporate statistical modeling of breakpoint distances and local rearrangement rates. Additionally, real tumors often have admixed normal cells and subclonal heterogeneity, which are not modeled. The held-out targets are randomly selected rather than based on true statistical uncertainty.",
+    "intended_use": "This synthetic data is suitable for early-stage methodological testing of graph-based models for missing interaction prediction, cycle detection, and graph completion. It should not be used for clinical inference or biological discovery without extensive validation against real whole-genome sequencing data. Error propagation studies should consider the simplified assumptions and lack of biological covariance."
+  },
+  "uncertainty_flags": {
+    "assumptions_based_on_general_priors": [
+      "Interchromosomal fraction differences between ETS+ and ETS- tumors are approximated; real variability may be higher.",
+      "NEPC pattern of intrachromosomal clustering is based on limited literature; actual NEPC genomes may show more interchromosomal events.",
+      "Breakpoint positions are randomly perturbed within gene regions; real breakpoints cluster non-randomly at fragile sites.",
+      "Confidence values are synthetic and not derived from real read support or statistical tests."
+    ],
+    "underdetermined_aspects": [
+      "True rates of closed cycles in real prostate cancer genomes are not known; synthetic data may over- or under-represent them.",
+      "The relationship between chain length and clinical parameters is not modeled.",
+      "Subclonal architecture and timing of chromoplexy events are omitted."
+    ],
+    "possible_biases": [
+      "Synthetic generation favors clean cycles and chains, which may be easier to predict than real fragmented data.",
+      "Held-out targets are selected without reference to true prediction difficulty; real missing data often arise from low coverage or complex rearrangements.",
+      "Overrepresentation of known cancer genes may inflate biological plausibility in a non-random way."
+    ],
+    "cautious_treatment_advice": [
+      "Do not use these confidence values as probabilities of true biological interactions; treat them as relative weights for algorithm benchmarking.",
+      "When comparing synthetic to real data, expect higher noise, missing breakpoints, and non-cycle structures in real data.",
+      "Error propagation from synthetic to real data may underestimate prediction error because synthetic data lack biological covariances and measurement noise.",
+      "Validation on at least one real whole-genome sequencing dataset is strongly recommended before clinical or biological interpretation."
+    ],
+    "required_comparisons_before_trust": [
+      "Compare synthetic breakpoint distance distributions to real prostate cancer WGS data.",
+      "Validate that graph-based models trained on synthetic data achieve similar performance on real data with held-out rearrangements.",
+      "Assess whether the synthetic interchromosomal/intrachromosomal ratios match real cohorts (e.g., TCGA-PRAD).",
+      "Test if synthetic closed cycles correspond to real chromoplexy cycles validated by long-read sequencing."
+    ]
+  }
+}
